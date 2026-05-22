@@ -1,0 +1,28 @@
+{
+  "name": "Whispr — Your feelings, on beautiful paper",
+  "short_name": "Whispr",
+  "description": "A calm, aesthetic diary platform where you share honest feelings on customizable paper. No likes. No noise. Just you, on the page.",
+  "start_url": "/",
+  "id": "/",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "background_color": "#faf8f5",
+  "theme_color": "#faf8f5",
+  "orientation": "portrait",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
