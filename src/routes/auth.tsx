@@ -135,8 +135,14 @@ function AuthPage() {
             <p className="text-xs text-ink-muted">© Whispr — Share what you truly feel.</p>
           </div>
 
-          {/* Form */}
-          <div className="relative">
+            {/* Form */}
+            <div className="relative">
+              <div className="flex justify-center mb-6 md:hidden">
+                <div className="flex items-center gap-2">
+                  <span className="grid h-12 w-12 place-items-center rounded-full bg-clay text-paper hand text-2xl">w</span>
+                  <span className="serif text-4xl">Whispr</span>
+                </div>
+              </div>
             <div className="rounded-3xl border border-border/60 bg-paper/80 p-7 paper-edge-lg backdrop-blur-xl sm:p-9">
               <div className="mb-6 flex items-center justify-between">
                 <h2 className="text-3xl">{mode === "signup" ? "Begin your diary" : "Welcome back"}</h2>
@@ -148,19 +154,9 @@ function AuthPage() {
                 </button>
               </div>
 
-              <button
-                type="button"
-                onClick={google}
-                disabled={loading}
-                className="mb-5 flex w-full items-center justify-center gap-2 rounded-full border border-border bg-background/80 px-4 py-3 text-sm font-medium transition hover:bg-paper-warm disabled:opacity-50"
-              >
-                <svg viewBox="0 0 24 24" className="h-4 w-4"><path fill="#EA4335" d="M12 10v3.6h5.1c-.2 1.3-1.6 3.8-5.1 3.8a5.4 5.4 0 1 1 0-10.8c1.7 0 2.8.7 3.5 1.3l2.4-2.3C16.4 4.2 14.4 3.3 12 3.3a8.7 8.7 0 1 0 0 17.4c5 0 8.4-3.5 8.4-8.5 0-.6-.1-1.1-.2-1.6H12z"/></svg>
-                Continue with Google
-              </button>
 
-              <div className="my-5 flex items-center gap-3 text-xs text-ink-muted">
-                <div className="h-px flex-1 bg-border" /> or with email <div className="h-px flex-1 bg-border" />
-              </div>
+
+
 
               <form onSubmit={submit} className="space-y-3">
                 {mode === "signup" && (
