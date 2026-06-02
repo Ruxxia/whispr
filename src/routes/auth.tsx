@@ -1,5 +1,5 @@
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
@@ -13,6 +13,17 @@ export const Route = createFileRoute("/auth")({
   component: AuthPage,
 });
 
+const STATIC_PARTICLES = [
+  { left: 15, delay: 0.5, size: 3, duration: 7 },
+  { left: 35, delay: 2.1, size: 4, duration: 9 },
+  { left: 55, delay: 1.2, size: 2, duration: 6 },
+  { left: 75, delay: 3.4, size: 5, duration: 8 },
+  { left: 88, delay: 0.8, size: 3, duration: 7.5 },
+  { left: 22, delay: 4.5, size: 4.5, duration: 10 },
+  { left: 62, delay: 2.8, size: 2.5, duration: 8.5 },
+  { left: 45, delay: 5.2, size: 3.5, duration: 9.5 },
+];
+
 function AuthPage() {
   const nav = useNavigate();
   const search = Route.useSearch();
@@ -21,6 +32,40 @@ function AuthPage() {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const [showSplash, setShowSplash] = useState(() => {
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get("force_splash") === "true") {
+        sessionStorage.removeItem("whispr_auth_splash_seen");
+        return true;
+      }
+      const seen = sessionStorage.getItem("whispr_auth_splash_seen");
+      return !seen;
+    }
+    return true;
+  });
+  const [isExiting, setIsExiting] = useState(false);
+
+  const handleExit = () => {
+    if (isExiting) return;
+    setIsExiting(true);
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("whispr_auth_splash_seen", "true");
+    }
+    setTimeout(() => {
+      setShowSplash(false);
+    }, 900); // matches the duration of the exit animation splash-slide-up (0.9s)
+  };
+
+  useEffect(() => {
+    if (!showSplash || isExiting) return;
+    const timer = setTimeout(() => {
+      handleExit();
+    }, 2800);
+    return () => clearTimeout(timer);
+  }, [showSplash, isExiting]);
+
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
@@ -154,6 +199,51 @@ function AuthPage() {
           </div>
         </div>
       </div>
+      {showSplash && (
+        <div
+          onClick={handleExit}
+          className={`splash-overlay grain ${isExiting ? "splash-exit-slide" : ""}`}
+        >
+          <div className="splash-glow" />
+
+          {STATIC_PARTICLES.map((p, i) => (
+            <div
+              key={i}
+              className="splash-particle"
+              style={{
+                left: `${p.left}%`,
+                animationDelay: `${p.delay}s`,
+                width: `${p.size}px`,
+                height: `${p.size}px`,
+                animationDuration: `${p.duration}s`,
+              }}
+            />
+          ))}
+
+          <div className="splash-logo-container">
+            <div className="flex items-center gap-3">
+              <span className="grid h-12 w-12 place-items-center rounded-full bg-clay text-paper hand text-2xl shadow-lg select-none">
+                w
+              </span>
+              <span className="serif text-4xl font-semibold tracking-wide select-none">Whispr</span>
+            </div>
+            <div className="splash-line" />
+            <p className="hand text-2xl text-clay/90 splash-subheading select-none">
+              a quiet little place
+            </p>
+          </div>
+
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleExit();
+            }}
+            className="splash-skip-btn cursor-pointer font-sans"
+          >
+            Click to enter
+          </button>
+        </div>
+      )}
     </div>
   );
 }

@@ -2,7 +2,7 @@
   "name": "Whispr — Your feelings, on beautiful paper",
   "short_name": "Whispr",
   "description": "A calm, aesthetic diary platform where you share honest feelings on customizable paper. No likes. No noise. Just you, on the page.",
-  "start_url": "/",
+  "start_url": "/auth",
   "id": "/",
   "display": "standalone",
   "display_override": [
