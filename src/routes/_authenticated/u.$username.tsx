@@ -97,20 +97,26 @@ function ProfilePage() {
       >
         <div aria-hidden className="pointer-events-none absolute -right-12 -top-12 h-48 w-48 rounded-full blur-2xl" style={{ background: `${accent}55` }} />
         <div className="relative flex flex-wrap items-start gap-6">
-          {profile.avatar_url ? (
-            <img src={profile.avatar_url} alt="" className="h-20 w-20 rounded-full object-cover paper-edge" />
-          ) : (
-            <div className="grid h-20 w-20 place-items-center rounded-full text-3xl text-paper" style={{ background: accent }}>
-              {(profile.display_name ?? profile.username).slice(0, 1).toUpperCase()}
+          <div className="flex items-start gap-4">
+            {profile.avatar_url ? (
+              <img src={profile.avatar_url} alt="" className="h-20 w-20 rounded-full object-cover paper-edge" />
+            ) : (
+              <div className="grid h-20 w-20 place-items-center rounded-full text-3xl text-paper" style={{ background: accent }}>
+                {(profile.display_name ?? profile.username).slice(0, 1).toUpperCase()}
+              </div>
+            )}
+            <div className="flex-1">
+              <h1 className="text-3xl">{profile.display_name ?? profile.username}</h1>
+              <p className="text-sm text-ink-muted">@{profile.username}</p>
             </div>
-          )}
-          <div className="flex-1 space-y-1">
-            <h1 className="text-3xl">{profile.display_name ?? profile.username}</h1>
-            <p className="text-sm text-ink-muted">@{profile.username}</p>
-            <p className="mt-2 max-w-prose text-sm text-foreground/80">
+          </div>
+          <div className="w-full mt-2">
+            <p className="max-w-prose text-sm text-foreground/80">
               {profile.bio || <span className="italic text-ink-muted">{isMe ? "Add a bio to introduce your diary." : "no bio yet"}</span>}
             </p>
-            <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-ink-muted">
+          </div>
+          <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-ink-muted">
+          <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-ink-muted w-full">
               <span><strong className="text-foreground">{counts.pages}</strong> pages</span>
               <span><strong className="text-foreground">{counts.followers}</strong> followers</span>
               <span><strong className="text-foreground">{counts.following}</strong> following</span>

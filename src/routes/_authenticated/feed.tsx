@@ -45,18 +45,21 @@ function FeedPage() {
       </div>
 
       {/* Mood chips */}
-      <div className="-mx-1 flex gap-2 overflow-x-auto pb-1">
+      <div className="flex flex-wrap gap-2">
         <FilterChip active={!mood} onClick={() => setMood(null)}>All moods</FilterChip>
         {MOODS.map((m) => (
-          <Link
+          <button
             key={m.key}
-            to="/mood/$mood"
-            params={{ mood: m.key }}
-            className="whitespace-nowrap rounded-full border border-border bg-paper/60 px-3.5 py-1.5 text-xs font-medium text-ink-muted transition hover:text-foreground"
+            onClick={() => setMood(m.key)}
+            className={cn(
+              "whitespace-nowrap rounded-full border border-border px-3.5 py-1.5 text-xs font-medium transition",
+              mood === m.key ? "bg-paper text-foreground shadow-soft" : "bg-paper/60 text-ink-muted hover:text-foreground",
+              mood === m.key && "border-clay"
+            )}
             style={{ background: m.color }}
           >
             <span className="mr-1">{m.emoji}</span>{m.label}
-          </Link>
+          </button>
         ))}
       </div>
 
